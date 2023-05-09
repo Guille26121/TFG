@@ -12,7 +12,7 @@
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerCombo">
   <content>
-    <AnchorPane fx:id="Background" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1024.0">
+    <AnchorPane fx:id="Background" minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="1024.0">
     <ChoiceBox fx:id="Loop" layoutX="516.0" onAction="#actionLoop" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: lime; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Ops" layoutX="172.0" onAction="#actionOp" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: dodgerblue; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Cond" layoutX="344.0" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: fuchsia; -fx-background-radius: 0;" />
@@ -23,9 +23,9 @@
             <Image url="@../assets/Tcan.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="Class" layoutX="112.0" layoutY="57.0" prefHeight="606.0" prefWidth="870.0" style="-fx-background-color: sienna;">
+      <AnchorPane fx:id="Class" layoutX="112.0" layoutY="57.0" prefHeight="636.0" prefWidth="870.0" style="-fx-background-color: sienna;">
          <children>
-            <VBox layoutX="24.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="488.0" minWidth="802.0" prefHeight="488.0" prefWidth="802.0" style="-fx-background-color: white;" styleClass="drop" />
+            <VBox fx:id="program" layoutX="24.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="488.0" minWidth="790.0" prefHeight="523.0" prefWidth="810.0" style="-fx-background-color: white;" styleClass="drop" />
                <Label layoutX="14.0" layoutY="13.0" text="Paquete:">
                   <font>
                      <Font size="14.0" />
@@ -73,6 +73,31 @@
                <Image url="@../assets/Play.png" />
             </image>
          </ImageView>
+         <Label layoutX="49.0" layoutY="7.0" text="Variables">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Label layoutX="218.0" layoutY="7.0" text="Operaciones">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Label layoutX="392.0" layoutY="7.0" text="Condiciones">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Label layoutX="578.0" layoutY="7.0" text="Bucles">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Label layoutX="746.0" layoutY="7.0" text="Funciones">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
     </AnchorPane>
     
   </content>

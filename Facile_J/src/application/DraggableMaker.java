@@ -27,67 +27,66 @@ public class DraggableMaker {
 
     public void makeDraggable(Node node){
     	
+    	// Código no necesario del todo, sirve para tratar con el padre en vez de con el que arrastra
     	if(node.getStyleClass().contains("drag")) {
-    		if(node.getParent().getStyleClass().contains("body")) {
-        		p = node.getParent();
-
-    		}else {
-        		p = node;
-    		}
+    		p = node.getParent();
     	}
 
         node.setOnMousePressed(mouseEvent -> {
+        	// Manda el nodo al frente
         	node.toFront();
         	ScrollPane sp = (ScrollPane) node.getScene().getRoot();
+        	// Posición del ratón
     		mouseAnchorX = mouseEvent.getX();
     		mouseAnchorY = mouseEvent.getY();
-    		System.out.println("SceneX: "+mouseAnchorX+" SceneY: "+mouseAnchorY);
-
-    		scrollXOffset = sp.getHvalue() * (sp.getContent().getBoundsInLocal().getWidth() - sp.getViewportBounds().getWidth());
-    		scrollYOffset = sp.getVvalue() * (sp.getContent().getBoundsInLocal().getHeight() - sp.getViewportBounds().getHeight());
-    		System.out.println("ScrolleadoX: "+scrollXOffset+" ScrolledY: "+scrollYOffset);
+    		// Cantidad de pixeles scrolleados
+    		scrollXOffset = sp.getHvalue() * (sp.getPrefWidth() -node.getScene().getWidth());//(sp.getContent().getBoundsInLocal().getWidth() - sp.getViewportBounds().getWidth());
+    		scrollYOffset = sp.getVvalue() * (sp.getPrefHeight() -node.getScene().getHeight());//(sp.getContent().getBoundsInLocal().getHeight() - sp.getViewportBounds().getHeight());
         	ScrollPane root = (ScrollPane)p.getScene().getRoot();
         	AnchorPane root2 = (AnchorPane)root.getContent();
+        	// Extraer nodo de VBox o de HBox
         	if(p.getParent() instanceof VBox ) {
-        		System.out.println("Entro aqui");
             	VBox vb = (VBox) p.getParent();
             	p.setLayoutX(mouseEvent.getSceneX() - mouseAnchorX +scrollXOffset);
                 p.setLayoutY(mouseEvent.getSceneY() - mouseAnchorY +scrollYOffset);
             	vb.getChildren().remove(p);
             	root2.getChildren().add(p);
         	}else if(p.getParent() instanceof HBox) {
-        		System.out.println("No, entro aqui");
         		HBox hb = (HBox) p.getParent();
-        		p.setLayoutX(mouseEvent.getSceneX() - mouseAnchorX);
-                p.setLayoutY(mouseEvent.getSceneY() - mouseAnchorY);
+        		p.setLayoutX(mouseEvent.getSceneX() - mouseAnchorX +scrollXOffset);
+                p.setLayoutY(mouseEvent.getSceneY() - mouseAnchorY +scrollYOffset);
             	hb.getChildren().remove(p);
             	root2.getChildren().add(p);
         	}
         });
 
-        // Lo que hace que las cosas se muevan (sustituir node por p)
+        // Calcula la posición por el arrastre
         node.setOnMouseDragged(mouseEvent -> {
         	ScrollPane sp = (ScrollPane) node.getScene().getRoot();
-    		double scrollXOffset = sp.getHvalue() * (sp.getContent().getBoundsInLocal().getWidth() - sp.getViewportBounds().getWidth());
-    		double scrollYOffset = sp.getVvalue() * (sp.getContent().getBoundsInLocal().getHeight() - sp.getViewportBounds().getHeight());
+    		scrollXOffset = sp.getHvalue() * (sp.getPrefWidth() -node.getScene().getWidth());//(sp.getContent().getBoundsInLocal().getWidth() - sp.getViewportBounds().getWidth());
+    		scrollYOffset = sp.getVvalue() * (sp.getPrefHeight() -node.getScene().getHeight());//(sp.getContent().getBoundsInLocal().getHeight() - sp.getViewportBounds().getHeight());
         	p.setLayoutX(mouseEvent.getSceneX() - mouseAnchorX +scrollXOffset);
             p.setLayoutY(mouseEvent.getSceneY() - mouseAnchorY +scrollYOffset);
-        });
+        }); 
+        
         
         node.setOnMouseReleased(mouseEvent -> {
         	Node  fBox = null;
+        	// Obtiene donde se puede dropear el nodo
             Set<Node> containers = p.getScene().getRoot().lookupAll(".drop");
             mouseAnchorX = mouseEvent.getSceneX();
             mouseAnchorY = mouseEvent.getSceneY();
             Point2D centerInScene =  new Point2D(mouseAnchorX+scrollXOffset, mouseAnchorY+scrollYOffset);
             ImageView trash = (ImageView)p.getScene().getRoot().lookup("#Trash");
+            // Cacula si se está dropeando en la basura
             if(trash.getBoundsInParent().contains(centerInScene)) {
             	ScrollPane root = (ScrollPane)p.getScene().getRoot();
             	AnchorPane root2 = (AnchorPane)root.getContent();
             	root2.getChildren().remove(p);
             	return;
             }
-
+            
+            // Revisa que nodo contiene la posición del que estamos dropeando
             for (Node n : containers) {
             	boolean t = false;
             	if(n.getId() == null) {
@@ -103,18 +102,17 @@ public class DraggableMaker {
             }
             VBox vb;
             HBox hb;
-
+            
+            // Revisa si este nodo al que dropeamos es nulo, en caso de no serlo revisa si es HBox o VBox, si se puede y si es así lo añade y expande
             if (fBox != null) {
-                if(fBox instanceof VBox) {
+                if(fBox instanceof VBox && node.getStyleClass().contains("V")) {
                 	vb = (VBox) fBox;
                     vb.getChildren().add(p);
-                    expandV(vb);
-                    expandH(vb);
-                }else if(fBox instanceof HBox) {
+                    expand(vb);
+                }else if(fBox instanceof HBox && node.getStyleClass().contains("H")) {
                 	hb = (HBox) fBox;
                     hb.getChildren().add(p);
-                    expandH(hb);
-                    expandV(hb);
+                    expand(hb);
                 }
             }
 
@@ -122,139 +120,81 @@ public class DraggableMaker {
         
     }
     
-    public void expandV (Node son) {
+    
+    public void expand (Node son) {
     	VBox vs = null;
 		HBox hs = null;
-    	AnchorPane p = null;
-		double Vheight = 0;
-
-    	// Asegurarse de que es VBox
-    	if(son instanceof VBox) {
-    		vs = (VBox) son; // He de comprobar si sumo o no al hbox
-    		p = (AnchorPane) vs.getParent();
-    		// Lograr altura de el contenido
-    		for (Node hijo : vs.getChildren()) {
-    		    Vheight += hijo.getBoundsInParent().getHeight();
-    		}
-    		
-    		double total_dist_down = vs.getLayoutY() + Vheight+50;
-    		if(total_dist_down >= p.getPrefHeight()) {
-    			p.setPrefHeight(total_dist_down);
-    			
-        	    if (Vheight > vs.getMinHeight()) {
-        	    	vs.setPrefHeight(Vheight + 30);
-        	    	vs.setMinHeight(Vheight+30);
-        	    }
-    			if(!p.getId().equals("Class")) {
-    				expandV(vs.getParent().getParent());
-    			}else {
-    		    	ScrollPane sp = null;
-    		    	AnchorPane ap = null;
-    		    	sp = (ScrollPane)son.getScene().getRoot();
-    		    	ap = (AnchorPane)sp.getContent();
-    		    	double total = p.getLayoutY()+p.getPrefHeight()+100;
-    		    	sp.setPrefHeight(total);
-    		    	ap.setPrefHeight(total);
-    			}
-    		}
-    		// Expandir el VBox (exitoso hasta aquí)
-    	}else if(son instanceof HBox) {
-    		hs = (HBox) son; // He de comprobar si sumo o no al hbox
-    		p = (AnchorPane) hs.getParent();
-    		for (Node hijo : hs.getChildren()) {
-    		    if(hijo.getBoundsInLocal().getHeight()>Vheight) {
-    		    	Vheight = hijo.getBoundsInLocal().getHeight();
-    		    }
-    		}
-    		double total_dist_down = hs.getLayoutY() + Vheight+50;
-    		if(total_dist_down >= p.getPrefHeight()) {
-    			p.setPrefHeight(total_dist_down);
-    			
-        	    if (Vheight > hs.getMinHeight()) {
-        	    	hs.setPrefHeight(Vheight + 30);
-        	    	hs.setMinHeight(Vheight+30);
-        	    }
-    			if(!p.getId().equals("Class")) {
-    				expandV(hs.getParent().getParent());
-    			}else {
-    		    	ScrollPane sp = null;
-    		    	AnchorPane ap = null;
-    		    	sp = (ScrollPane)son.getScene().getRoot();
-    		    	ap = (AnchorPane)sp.getContent();
-    		    	double total = p.getLayoutY()+p.getPrefHeight()+100;
-    		    	sp.setPrefHeight(total);
-    		    	ap.setPrefHeight(total);
-    			}
-    		}
-    	}
-    }
-    
-    
-    public void expandH (Node son) {
-    	// En este caso supondremos que partiremos de un VBox, en ese caso se expandirán lateralmente los nodos pero tan solo el primero debe ser Vbox creo yo. 
-    	HBox hs = null;
-    	VBox vs = null;
-    	AnchorPane p = null;
+    	AnchorPane ap = null;
+    	double h = 0;
+    	double w = 0;
     	if(son instanceof HBox) {
-    		hs = (HBox) son; // He de comprobar si sumo o no al hbox
-    		p = (AnchorPane) hs.getParent();
-    		double Vwidth =0;
-    		for (Node hijo : hs.getChildren()) {
-    		    Vwidth += hijo.getBoundsInParent().getWidth();
-    		}
-    			
-    		double total_dist_left = hs.getLayoutX() + Vwidth+50;
-    		if(total_dist_left >= p.getPrefWidth()) {
-    			p.setPrefWidth(total_dist_left);
-    			
-        	    if (Vwidth > hs.getMinWidth()) {
-        	    	hs.setPrefWidth(Vwidth + 30);
-        	    	hs.setMinWidth(Vwidth+30);
-        	    }
-    			if(!p.getId().equals("Class")) {
-    				expandH(hs.getParent().getParent());
+    		hs = (HBox) son;
+    		ap = (AnchorPane) hs.getParent();
+    		for (Node n : hs.getChildren()) {
+    			AnchorPane n2 = (AnchorPane)n;
+    		    w += n2.getPrefWidth();
+    		}  			
+    	    if (w > hs.getPrefWidth()) {
+    	    	hs.setPrefWidth(w );
+    	    }
+    	    double total_w_dist = hs.getLayoutX() + w+30;
+    		if(total_w_dist > ap.getPrefWidth()) {
+    			ap.setPrefWidth(total_w_dist);
+    			if(!ap.getId().equals("Class")) {
+    				expand(hs.getParent().getParent());
     			}else {
-    		    	ScrollPane sp = null;
-    		    	AnchorPane ap = null;
-    		    	sp = (ScrollPane)son.getScene().getRoot();
-    		    	ap = (AnchorPane)sp.getContent();
-    		    	double total = p.getLayoutX()+p.getPrefWidth()+100;
-    		    	sp.setPrefWidth(total);
-    		    	ap.setPrefWidth(total);
+    		    	endReach(ap);
     			}
-    		}
+    		}    
     		
-    		
-    	}else if (son instanceof VBox) {
+    	}else if(son instanceof VBox){
     		vs = (VBox) son;
-    		p = (AnchorPane) vs.getParent();
-    		double Vwidth = 0;
-    		for (Node hijo : vs.getChildren()) {
-    		    if(hijo.getBoundsInLocal().getWidth()>Vwidth) {
-    		    	Vwidth = hijo.getBoundsInLocal().getWidth();
+    		ap = (AnchorPane) vs.getParent();
+    	    boolean exp = false;
+    		for (Node n : vs.getChildren()) {
+    			AnchorPane n2 = (AnchorPane)n;
+    		    h += n2.getPrefHeight();
+    		    if(w < n2.getPrefWidth()) {
+    		    	w = n2.getPrefWidth();
     		    }
     		}
-    		
-    		double total_dist_left = vs.getLayoutX() + Vwidth+50;
-    		if(total_dist_left >= p.getPrefWidth()) {
-    			p.setPrefWidth(total_dist_left);
-    			
-        	    if (Vwidth > vs.getMinWidth()) {
-        	    	vs.setPrefWidth(Vwidth + 30);
-        	    	vs.setMinWidth(Vwidth+30);
-        	    }
-    			if(!p.getId().equals("Class")) {
-    				expandH(vs.getParent().getParent());
-    			}else {
-    		    	ScrollPane sp = null;
-    		    	AnchorPane ap = null;
-    		    	sp = (ScrollPane)son.getScene().getRoot();
-    		    	ap = (AnchorPane)sp.getContent();
-    		    	double total = p.getLayoutX()+p.getPrefWidth()+100;
-    		    	sp.setPrefWidth(total);
-    		    	ap.setPrefWidth(total);
-    			}
-    		}	
+    	    if (w > vs.getPrefWidth()) {
+    	    	vs.setPrefWidth(w );
+        	    double total_w_dist = vs.getLayoutX() + w+30;
+        		if(total_w_dist > ap.getPrefWidth()) {
+        			ap.setPrefWidth(total_w_dist);
+        			exp = true;
+        		} 
+    	    }
+    	    if (h > vs.getPrefHeight()) {
+    	    	vs.setPrefHeight(h+30);
+        	    double total_h_dist = vs.getLayoutY() + h+50;
+        		if(total_h_dist > ap.getPrefHeight()) {
+        			ap.setPrefHeight(total_h_dist);
+        			exp = true;
+        		} 
+    	    }
+
+
+    		if(exp) {
+				if(!ap.getId().equals("Class")) {
+					expand(vs.getParent().getParent());
+				}else {
+			    	endReach(ap);
+				}
+    		}
     	}
     }
+    
+    public void endReach(AnchorPane p) {
+	    	ScrollPane sp = null;
+	    	AnchorPane ap = null;
+	    	sp = (ScrollPane)p.getScene().getRoot();
+	    	ap = (AnchorPane)sp.getContent();
+	    	double total = p.getLayoutY()+p.getPrefHeight()+100;
+	    	sp.setPrefHeight(total);
+	    	ap.setPrefHeight(total);
+    }
+    
 }
+  

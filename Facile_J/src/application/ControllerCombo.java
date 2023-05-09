@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -42,7 +43,7 @@ public class ControllerCombo implements Initializable {
     @FXML
     void actionVar(ActionEvent event) {
     	if ("Inicialización".equals(Vars.getValue())) {
-    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("Int_Block.fxml"));
+    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Int_Block.fxml"));
              AnchorPane componente = null;
 			try {
 				componente = loader.load();
@@ -66,19 +67,21 @@ public class ControllerCombo implements Initializable {
         AnchorPane p = (AnchorPane)n.getParent();
         
     	if ("+".equals(Ops.getValue())) {
-    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("plus.fxml"));
+    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/plus.fxml"));
 			try {
 				componente = loader.load();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
     	}else if ("-".equals(Ops.getValue())) {
-   		 FXMLLoader loader = new FXMLLoader(getClass().getResource("minus.fxml"));
+   		 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/minus.fxml"));
 			try {
 				componente = loader.load();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+    	}else {
+    		return;
     	}
         p.getChildren().add(componente);
     	Ops.setValue(null);
@@ -88,7 +91,7 @@ public class ControllerCombo implements Initializable {
     void actionLoop(ActionEvent event) {
 
     	if ("While".equals(Loop.getValue())) {
-    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("while.fxml"));
+    		 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/while.fxml"));
              AnchorPane componente = null;
 			try {
 				componente = loader.load();
@@ -143,7 +146,10 @@ public class ControllerCombo implements Initializable {
 	    		if(!inhrt.getText().isEmpty()) pw.write("extends "+inhrt.getText()+" ");
 	    		if(!impl.getText().isEmpty()) pw.write("implements "+impl.getText()+" ");
 	    		pw.write("{ \n");
-	    		
+	    		VBox program = (VBox) Cstart.lookup("#program");
+	    		treeTravel(program,pw,1);
+	    		pw.write("} \n");
+
 	    		
 	    		
 	    		
@@ -155,39 +161,89 @@ public class ControllerCombo implements Initializable {
     	});
     }
     
-    public void treeTravel (Node n, PrintWriter pw) {
+    public void treeTravel (Node n, PrintWriter pw,int indent) {
+    	System.out.println("Pasa por aquí: "+n+" indenta: "+indent);
     	if(n instanceof VBox) {
     		VBox vb = (VBox)n;
     		ObservableList<Node> nodes = vb.getChildren();
     		for(Node node : nodes){
-    			treeTravel(node,pw);
-    			pw.write("\n");
+    			treeTravel(node,pw,indent);
+    			if(nodes.indexOf(node) != nodes.size()-1) pw.write("\n");
     		}
     	}else if (n instanceof HBox) {
     		HBox hb = (HBox)n;
     		ObservableList<Node> nodes = hb.getChildren();
     		for(Node node : nodes){
-    			treeTravel(node,pw);
+    			treeTravel(node,pw,indent);
     		}
     	}else if (n instanceof AnchorPane) {
     		AnchorPane ap = (AnchorPane)n;
     		String id = ap.getId();
     		switch (id) {
-    		case "While": WriteWhile(ap,pw); break;
-    		case "B": break;
+    		case "While": WriteWhile(ap,pw,indent); break;
+    		case "method": WriteMethod(ap, pw,indent); break;
+    		case "Plus" : WritePlus(ap,pw); break;
+    		case "Minus" : WriteMinus(ap,pw); break;
     		}
     			
     	}
     }
-    public void WriteWhile(Node n,PrintWriter pw) {
+    public void WriteWhile(Node n,PrintWriter pw,int indent) {
+    	for (int i = 0; i<indent;i++) {
+    		pw.write("\t");
+    	}
     	pw.write("while (");
     	AnchorPane node = (AnchorPane)n;
     	HBox cond = (HBox)node.lookup("#WCond");
-    	treeTravel(cond, pw);
+    	treeTravel(cond, pw,indent);
     	pw.write(" ){ \n");
-    	VBox cont = (VBox)node.lookup("#WCont");
-    	treeTravel(cont,pw);
+    	VBox cont = (VBox)node.lookup("#WContent");
+    	treeTravel(cont,pw,indent+1);
+    	for (int i = 0; i<indent;i++) {
+    		pw.write("\t");
+    	}
     	pw.write("} \n");
+    }
+    
+    public void WritePlus(Node n,PrintWriter pw) {
+    	pw.write("+ ");
+    }
+    public void WriteMinus(Node n,PrintWriter pw) {
+    	pw.write("- ");
+    }
+    
+    public void WriteMethod(Node n,PrintWriter pw,int indent) {
+    	TextField name = (TextField)n.lookup("#Fname");
+	    CheckBox stat = (CheckBox)n.lookup("#Fstatic");
+	    ChoiceBox<String> acc = (ChoiceBox<String>)n.lookup("#Facc");
+	    HBox fout = (HBox)n.lookup("#Fout");
+	    HBox fin = (HBox)n.lookup("#Fin");
+	    VBox fcont = (VBox)n.lookup("#FCont");
+    	for (int i = 0; i<indent;i++) {
+    		pw.write("\t");
+    	}
+
+        if(!acc.getSelectionModel().isSelected(0)) {
+        	pw.write(acc.getSelectionModel().getSelectedItem()+" ");
+        }
+        if(stat.isSelected()) {
+        	pw.write("static ");
+        }
+        if(fout.getChildren().size() == 1) {
+        	treeTravel(fout.getChildren().get(0), pw,indent);
+        }
+        pw.write(name.getText()+" (");
+		ObservableList<Node> nodes = fin.getChildren();
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
+		}
+		pw.write(" ){ \n");
+		treeTravel(fcont, pw,indent+1);
+    	for (int i = 0; i<indent;i++) {
+    		pw.write("\t");
+    	}
+		pw.write("}\n");
     }
 	
 	

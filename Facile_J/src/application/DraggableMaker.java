@@ -105,14 +105,59 @@ public class DraggableMaker {
             
             // Revisa si este nodo al que dropeamos es nulo, en caso de no serlo revisa si es HBox o VBox, si se puede y si es así lo añade y expande
             if (fBox != null) {
-                if(fBox instanceof VBox && node.getStyleClass().contains("V")) {
+            	double compY = 0;
+            	double compX = 0;
+                if(fBox instanceof VBox && (node.getStyleClass().contains("V") || node.getStyleClass().contains("B"))) {
                 	vb = (VBox) fBox;
-                    vb.getChildren().add(p);
-                    expand(vb);
-                }else if(fBox instanceof HBox && node.getStyleClass().contains("H")) {
+                	if(vb.getChildren().size() == 0) {
+                        vb.getChildren().add(p);
+                        expand(vb);
+                	}else {
+                		if(!vb.getStyleClass().contains("one")) {
+                			double layout = vb.getLayoutY();
+                			Node findL = vb;
+                			do{
+                				findL = findL.getParent();
+                				layout += findL.getLayoutY();
+                			}while(!findL.getId().equals("Class"));
+                			compY = mouseEvent.getSceneY()-layout;
+                			int index = vb.getChildren().size();
+	                        ObservableList<Node> others = vb.getChildren();
+	                        for (Node o : others) {
+	                        	if (compY >= o.getLayoutY() && compY <= o.getLayoutY() + o.getBoundsInParent().getHeight()) {
+	                        		index = vb.getChildren().indexOf(o);
+	                        	}
+	                        }
+	                        vb.getChildren().add(index,p);
+	                        expand(vb);
+                		}
+                	}
+
+                }else if(fBox instanceof HBox && (node.getStyleClass().contains("H") || node.getStyleClass().contains("B"))) {
                 	hb = (HBox) fBox;
-                    hb.getChildren().add(p);
-                    expand(hb);
+                	if(hb.getChildren().size() == 0) {
+                		hb.getChildren().add(p);
+                        expand(hb);
+                	}else {
+                		if(!hb.getStyleClass().contains("one")) {
+                			double layout = hb.getLayoutX();
+                			Node findL = hb;
+                			do{
+                				findL = findL.getParent();
+                				layout += findL.getLayoutX();
+                			}while(!findL.getId().equals("Class"));
+                			compX = mouseEvent.getSceneX()-layout;
+                			int index = hb.getChildren().size();
+	                        ObservableList<Node> others = hb.getChildren();
+	                        for (Node o : others) {
+	                        	if (compX >= o.getLayoutX() && compX <= o.getLayoutX() + o.getBoundsInParent().getWidth()) {
+	                        		index = hb.getChildren().indexOf(o);
+	                        	}
+	                        }
+	                        hb.getChildren().add(index,p);
+	                        expand(hb);
+                		}
+                	}
                 }
             }
 
@@ -130,23 +175,41 @@ public class DraggableMaker {
     	if(son instanceof HBox) {
     		hs = (HBox) son;
     		ap = (AnchorPane) hs.getParent();
+    		boolean exp = false;
     		for (Node n : hs.getChildren()) {
     			AnchorPane n2 = (AnchorPane)n;
     		    w += n2.getPrefWidth();
+    		    if(h < n2.getPrefHeight()) {
+    		    	h = n2.getPrefHeight();
+    		    }
     		}  			
     	    if (w > hs.getPrefWidth()) {
-    	    	hs.setPrefWidth(w );
+    	    	hs.setPrefWidth(w+30);
+        	    double total_w_dist = hs.getLayoutX() + w+50;
+        		if(total_w_dist > ap.getPrefWidth()) {
+        			ap.setPrefWidth(total_w_dist);
+        			exp = true;
+        		}  
     	    }
-    	    double total_w_dist = hs.getLayoutX() + w+30;
-    		if(total_w_dist > ap.getPrefWidth()) {
-    			ap.setPrefWidth(total_w_dist);
-    			if(!ap.getId().equals("Class")) {
-    				expand(hs.getParent().getParent());
-    			}else {
-    		    	endReach(ap);
-    			}
-    		}    
-    		
+  
+ 
+    	    
+    	    if (h > hs.getPrefHeight()) {
+    	    	hs.setPrefHeight(h+10);
+    	    	VBox down = (VBox)ap.lookup(".vbox");
+    	    	down.setLayoutY(down.getLayoutY()+10);
+    	    	ap.setPrefHeight(ap.getPrefHeight()+10);
+    	    	exp = true;
+    	    }
+
+
+    		if(exp) {
+				if(!ap.getId().equals("Class")) {
+					expand(hs.getParent().getParent());
+				}else {
+			    	endReach(ap);
+				}
+    		}	
     	}else if(son instanceof VBox){
     		vs = (VBox) son;
     		ap = (AnchorPane) vs.getParent();
@@ -191,9 +254,20 @@ public class DraggableMaker {
 	    	AnchorPane ap = null;
 	    	sp = (ScrollPane)p.getScene().getRoot();
 	    	ap = (AnchorPane)sp.getContent();
-	    	double total = p.getLayoutY()+p.getPrefHeight()+100;
-	    	sp.setPrefHeight(total);
-	    	ap.setPrefHeight(total);
+	    	double totalh = p.getLayoutY()+p.getPrefHeight()+100;
+	    	double totalw = p.getLayoutX()+p.getPrefWidth()+100;
+	    	sp.setPrefHeight(totalh);
+	    	ap.setPrefHeight(totalh);
+	    	sp.setPrefWidth(totalw);
+	    	ap.setPrefWidth(totalw);
+    }
+    
+    public double getcenterY (Node n) {
+    	return n.getLayoutY() + n.getBoundsInParent().getHeight()/2;
+    }
+    
+    public double getcenterX (Node n) {
+    	return n.getLayoutX() + n.getBoundsInParent().getWidth()/2;
     }
     
 }

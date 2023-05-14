@@ -15,9 +15,9 @@
     <AnchorPane fx:id="Background" minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="1024.0">
     <ChoiceBox fx:id="Loop" layoutX="516.0" onAction="#actionLoop" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: lime; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Ops" layoutX="172.0" onAction="#actionOp" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: dodgerblue; -fx-background-radius: 0;" />
-      <ChoiceBox fx:id="Cond" layoutX="344.0" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: fuchsia; -fx-background-radius: 0;" />
+      <ChoiceBox fx:id="Cond" layoutX="344.0" onAction="#actionCond" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: fuchsia; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Vars" accessibleText="Variables" onAction="#actionVar" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: #FCAE1E; -fx-background-radius: 0;" />
-      <ChoiceBox fx:id="Func" layoutX="688.0" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: red; -fx-background-radius: 0;" />
+      <ChoiceBox fx:id="Func" onAction="#actionFunc" layoutX="688.0" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: red; -fx-background-radius: 0;" />
       <ImageView fx:id="Trash" fitHeight="83.0" fitWidth="100.0" layoutX="24.0" layoutY="610.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/Tcan.png" />

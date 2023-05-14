@@ -42,12 +42,16 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="427.0" layoutY="70.0" text="Salidas:">
+      <Label layoutX="427.0" layoutY="70.0" text="Salida:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox fx:id="Fout" layoutX="486.0" layoutY="62.0" prefHeight="30.0" prefWidth="259.0" style="-fx-background-color: white;" styleClass="onedrop" />
+      <HBox fx:id="Fout" layoutX="486.0" layoutY="62.0" prefHeight="30.0" prefWidth="259.0" style="-fx-background-color: white;">
+         <styleClass>
+            <String fx:value="drop" />
+            <String fx:value="one" />
+         </styleClass></HBox>
       <ImageView fx:id="DragMethod" fitHeight="30.0" fitWidth="30.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/all_directions.png" />

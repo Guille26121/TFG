@@ -16,7 +16,7 @@
    </children>
       <styleClass>
          <String fx:value="drag" />
-         <String fx:value="H" />
+         <String fx:value="O" />
       </styleClass>
 </AnchorPane>
 </AnchorPane>

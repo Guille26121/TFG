@@ -42,12 +42,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="427.0" layoutY="70.0" text="Salida:">
+      <Label layoutX="427.0" layoutY="79.0" text="Salida:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox fx:id="Fout" layoutX="486.0" layoutY="62.0" minHeight="30.0" minWidth="259.0" prefHeight="30.0" prefWidth="259.0" style="-fx-background-color: white;">
+      <HBox fx:id="Fout" layoutX="486.0" layoutY="74.0" minHeight="30.0" minWidth="129.0" prefHeight="30.0" prefWidth="129.0" style="-fx-background-color: white;">
          <styleClass>
             <String fx:value="drop" />
             <String fx:value="one" />

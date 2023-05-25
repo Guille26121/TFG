@@ -26,6 +26,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 public class ControllerCombo implements Initializable {
 
@@ -50,7 +53,26 @@ public class ControllerCombo implements Initializable {
 		Node n = (Node)event.getSource();
 		AnchorPane p = (AnchorPane)n.getParent();
 		if ("If".equals(Cond.getValue())) {
-
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/if.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Else If".equals(Cond.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/elseif.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Else".equals(Cond.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/else.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else {
 			return;
 		}
@@ -88,6 +110,27 @@ public class ControllerCombo implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}else if ("Retorno".equals(Func.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/return.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Llamada estática".equals(Func.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/call_st.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Llamada".equals(Func.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/call.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else {
 			return;
 		}
@@ -119,6 +162,20 @@ public class ControllerCombo implements Initializable {
 			}
 		}else if ("Tipo Cadena de texto".equals(Vars.getValue())) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/string.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Asignación".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/asign.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Variable".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/var.fxml"));
 			try {
 				componente = loader.load();
 			} catch (IOException e) {
@@ -252,23 +309,31 @@ public class ControllerCombo implements Initializable {
 
 	@FXML
 	void actionLoop(ActionEvent event) {
-
+		AnchorPane componente = null;
+		Node n = (Node)event.getSource();
+		AnchorPane p = (AnchorPane)n.getParent();
 		if ("While".equals(Loop.getValue())) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/while.fxml"));
-			AnchorPane componente = null;
 			try {
 				componente = loader.load();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// Controller controlador = loader.getController();
-			Node n = (Node)event.getSource();
-			AnchorPane p = (AnchorPane)n.getParent();
-			p.getChildren().add(componente);
-			componente.setLayoutX(50.0);
-			componente.setLayoutY(100.0);
 
+		}else if ("For".equals(Loop.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/for.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}else {
+			return;
 		}
+		p.getChildren().add(componente);
+		componente.setLayoutX(50.0);
+		componente.setLayoutY(100.0);
 
 		Loop.setValue(null);
 
@@ -284,7 +349,7 @@ public class ControllerCombo implements Initializable {
 		ObservableList<String> COops = FXCollections.observableArrayList("+","-","x","÷","%","AND","OR","NOT","=","≠",">","<","true","false");
 		ObservableList<String> COloop = FXCollections.observableArrayList("While","For");
 		ObservableList<String> COcond = FXCollections.observableArrayList("If","Else If","Else");
-		ObservableList<String> COfunct = FXCollections.observableArrayList("Función","Vacío","Retorno","Invocación","String[] args");
+		ObservableList<String> COfunct = FXCollections.observableArrayList("Función","Vacío","Retorno","Llamada estática","Llamada","String[] args");
 
 		Vars.setItems(COvars);
 		Ops.setItems(COops);
@@ -330,13 +395,13 @@ public class ControllerCombo implements Initializable {
 
 	// Método para navegar por el arbol del programa con distintos casos. 
 	public void treeTravel (Node n, PrintWriter pw,int indent) {
-		System.out.println("Pasa por aquí: "+n+" indenta: "+indent);
+		//System.out.println("Pasa por aquí: "+n+" indenta: "+indent);
 		if(n instanceof VBox) {
 			VBox vb = (VBox)n;
 			ObservableList<Node> nodes = vb.getChildren();
 			for(Node node : nodes){
 				treeTravel(node,pw,indent);
-				if(nodes.indexOf(node) != nodes.size()-1) pw.write("\n");
+				if(nodes.indexOf(node) != nodes.size()-1);
 			}
 		}else if (n instanceof HBox) {
 			HBox hb = (HBox)n;
@@ -345,7 +410,7 @@ public class ControllerCombo implements Initializable {
 				treeTravel(node,pw,indent);
 			}
 		}else if (n instanceof AnchorPane) {
-			// Nodos hoja
+			// Nodos hoja o distintos
 			AnchorPane ap = (AnchorPane)n;
 			String id = ap.getId();
 			switch (id) {
@@ -370,26 +435,135 @@ public class ControllerCombo implements Initializable {
 			case "False" : WriteFalse(ap,pw);break;
 			case "Void" : WriteVoid(ap,pw);break;
 			case "StrArgs" : WriteStrArgs(ap,pw);break;
+			case "Return" : WriteRet(ap,pw,indent);break;
+			case "StCall" : WriteStCall(ap,pw,indent);break;
+			case "Call" : WriteCall(ap,pw,indent);break;
+			case "Asign" : WriteAsign(ap,pw,indent);break;
+			case "Var" : WriteVar(ap,pw);break;
+			case "For" : WriteFor(ap,pw,indent);break;
+			case "If" : WriteIf(ap,pw,indent);break;
+			case "ElseIf" : WriteElseIf(ap,pw,indent);break;
+			case "Else" : WriteElse(ap,pw,indent);break;
 			}
 
 		}
 	}
-	public void WriteWhile(Node n,PrintWriter pw,int indent) {
+	public void WriteIf(Node n,PrintWriter pw,int indent) {
 		for (int i = 0; i<indent;i++) {
 			pw.write("\t");
 		}
-		pw.write("while (");
-		AnchorPane node = (AnchorPane)n;
-		HBox cond = (HBox)node.lookup("#WCond");
+		pw.write("if (");
+		HBox cond = (HBox)n.lookup("#ICond");
 		treeTravel(cond, pw,indent);
 		pw.write(" ){ \n");
-		VBox cont = (VBox)node.lookup("#WContent");
+		VBox cont = (VBox)n.lookup("#IContent");
 		treeTravel(cont,pw,indent+1);
 		for (int i = 0; i<indent;i++) {
 			pw.write("\t");
 		}
 		pw.write("} \n");
 	}
+	
+	public void WriteElseIf(Node n,PrintWriter pw,int indent) {
+		VBox p = (VBox)n.getParent();
+		if(p.getChildren().indexOf(n)-1 >= 0) {
+			Node upbroth = p.getChildren().get(p.getChildren().indexOf(n)-1);
+			if((upbroth.getId()).equals("If") || (upbroth.getId()).equals("ElseIf") ) {
+				for (int i = 0; i<indent;i++) {
+					pw.write("\t");
+				}
+				pw.write("else if (");
+				HBox cond = (HBox)n.lookup("#EICond");
+				treeTravel(cond, pw,indent);
+				pw.write(" ){ \n");
+				VBox cont = (VBox)n.lookup("#EIContent");
+				treeTravel(cont,pw,indent+1);
+				for (int i = 0; i<indent;i++) {
+					pw.write("\t");
+				}
+				pw.write("} \n");
+		}
+
+		}else {
+	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.show();
+		}
+	}
+	
+	public void WriteElse(Node n,PrintWriter pw,int indent) {
+		VBox p = (VBox)n.getParent();
+		if(p.getChildren().indexOf(n)-1 >= 0) {
+			Node upbroth = p.getChildren().get(p.getChildren().indexOf(n)-1);
+			if((upbroth.getId()).equals("If") || (upbroth.getId()).equals("ElseIf") ) {
+				for (int i = 0; i<indent;i++) {
+					pw.write("\t");
+				}
+				pw.write("else { \n");
+				VBox cont = (VBox)n.lookup("#EContent");
+				treeTravel(cont,pw,indent+1);
+				for (int i = 0; i<indent;i++) {
+					pw.write("\t");
+				}
+				pw.write("} \n");
+			}
+		}else {
+	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.show();
+		}
+	}
+	
+	
+	public void WriteWhile(Node n,PrintWriter pw,int indent) {
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write("while (");
+		HBox cond = (HBox)n.lookup("#WCond");
+		treeTravel(cond, pw,indent);
+		pw.write(" ){ \n");
+		VBox cont = (VBox)n.lookup("#WContent");
+		treeTravel(cont,pw,indent+1);
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write("} \n");
+	}
+	
+	public void WriteFor(Node n,PrintWriter pw,int indent) {
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write("for (");
+		HBox type = (HBox)n.lookup("#FType");
+		TextField name = (TextField)n.lookup("#FName");
+		HBox val = (HBox)n.lookup("#FVal");
+		ObservableList<Node> nodes = type.getChildren();
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+		}
+		pw.write(name.getText()+" = ");
+		nodes = val.getChildren();
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+		}
+		pw.write("; ");
+		HBox cond = (HBox)n.lookup("#FCond");
+		treeTravel(cond, pw,indent);
+		pw.write("; ");
+		
+		HBox change = (HBox)n.lookup("#FChange");
+		treeTravel(change, pw,indent);
+		pw.write("){ \n");
+		
+		VBox cont = (VBox)n.lookup("#FContent");
+		treeTravel(cont,pw,indent+1);
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write("} \n");
+	}
+	
+	
 
 	public void WritePlus(Node n,PrintWriter pw) {
 		pw.write("+ ");
@@ -398,7 +572,7 @@ public class ControllerCombo implements Initializable {
 		pw.write("- ");
 	}
 	public void WriteMult(Node n,PrintWriter pw) {
-		pw.write("x ");
+		pw.write("* ");
 	}
 	public void WriteDiv(Node n,PrintWriter pw) {
 		pw.write("/ ");
@@ -445,11 +619,78 @@ public class ControllerCombo implements Initializable {
 	public void WriteStrArgs(Node n,PrintWriter pw) {
 		pw.write("String[] args ");
 	}
+	public void WriteVar(Node n,PrintWriter pw) {
+		TextField name = (TextField)n.lookup("#VName");
+		pw.write(name.getText()+" ");
+	}
+	
+	public void WriteAsign(Node n,PrintWriter pw, int indent) {
+		TextField name = (TextField)n.lookup("#AName");
+		HBox type = (HBox)n.lookup("#ACont");
+		ObservableList<Node> nodes = type.getChildren();
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write(name.getText()+" = ");
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+		}
+		if(n.getParent() instanceof HBox) {
+		}else {
+			pw.print("; \n");
+		}
+	}
+	
+	
+	
+	public void WriteStCall(Node n,PrintWriter pw,int indent) {
+		HBox ret = (HBox)n.lookup("#SCParams");
+		TextField name = (TextField)n.lookup("#SCName");
+		ObservableList<Node> nodes = ret.getChildren();
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write(name.getText()+"(");
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
+		}
+		pw.write("); \n");
+	}
+	
+	public void WriteCall(Node n,PrintWriter pw,int indent) {
+		HBox ret = (HBox)n.lookup("#CParams");
+		TextField name = (TextField)n.lookup("#CName");
+		TextField obj = (TextField)n.lookup("#CObj");
+		ObservableList<Node> nodes = ret.getChildren();
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write(obj.getText()+"."+name.getText()+"(");
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
+		}
+		pw.write("); \n");
+	}
+	
+	public void WriteRet(Node n,PrintWriter pw,int indent) {
+		HBox ret = (HBox)n.lookup("#RVal");
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		pw.write("return ");
+		treeTravel(ret,pw,indent);
+		pw.write(" ; \n");
+	}
 
 	public void WriteInit(Node n,PrintWriter pw, int indent) {
 		TextField name = (TextField)n.lookup("#IName");
 		HBox type = (HBox)n.lookup("#IType");
 		ObservableList<Node> nodes = type.getChildren();
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
 		for(Node node : nodes){
 			treeTravel(node,pw,indent);
 		}

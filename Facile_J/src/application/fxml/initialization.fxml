@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="Init" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="462.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerInit">
+<AnchorPane fx:id="Init" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="462.0" prefHeight="40.0" prefWidth="462.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerInit">
    <children>
       <ImageView fx:id="DragInit" fitHeight="35.0" fitWidth="29.0" layoutX="5.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -20,20 +20,25 @@
             <String fx:value="B" />
          </styleClass>
       </ImageView>
-      <TextField fx:id="IName" layoutX="229.0" layoutY="5.0" prefHeight="26.0" prefWidth="223.0" style="-fx-background-radius: 0;" styleClass="drop">
+      <TextField fx:id="IName" layoutX="259.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-background-radius: 0;" styleClass="drop">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="56.0" layoutY="11.0" text="Var:">
+      <Label layoutX="201.0" layoutY="11.0" text="Nombre:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox fx:id="IType" layoutX="91.0" layoutY="5.0" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: white;">
+      <HBox fx:id="IType" layoutX="81.0" layoutY="5.0" minHeight="30.0" minWidth="98.0" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: white;">
          <styleClass>
             <String fx:value="drop" />
             <String fx:value="one" />
          </styleClass></HBox>
+      <Label layoutX="46.0" layoutY="11.0" prefHeight="20.0" prefWidth="36.0" text="Tipo:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

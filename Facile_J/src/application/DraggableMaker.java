@@ -228,13 +228,13 @@ public class DraggableMaker {
 					hs.setPrefHeight(hs.getMinHeight());
 				}
 				if(diff > 0) {
-					VBox down = (VBox)ap.lookup(".vbox");
 
-					if(down != null) {
-						down.setLayoutY(down.getLayoutY()-diff);
+					if(ap.getPrefHeight()-diff <= ap.getMinHeight()) {
+						ap.setPrefHeight(ap.getMinHeight());
+					}else {
 						ap.setPrefHeight(ap.getPrefHeight()-diff);
-						dexp = true;
 					}
+					dexp = true;
 				}
 
 			}
@@ -351,11 +351,28 @@ public class DraggableMaker {
 
 
 			if (h > hs.getPrefHeight()) {
-				hs.setPrefHeight(h+10);
-				VBox down = (VBox)ap.lookup(".vbox");
-				down.setLayoutY(down.getLayoutY()+10);
-				ap.setPrefHeight(ap.getPrefHeight()+10);
-				exp = true;
+				double diff = h- hs.getPrefHeight()+10;
+				hs.setPrefHeight(h);
+				ObservableList<Node> nodes = ap.getChildren();
+				double max_h = 0;
+				for(Node n : nodes){
+					double its_h = 0;
+					if(n instanceof HBox) {
+						HBox hb = (HBox)n;
+						its_h = hb.getLayoutY()+ hb.getPrefHeight();
+					}else if(n instanceof VBox) {
+						VBox vb = (VBox)n;
+						its_h = vb.getLayoutY()+ vb.getPrefHeight();
+					}
+					if(its_h> max_h) {
+						max_h = its_h;
+					}
+				}
+				if(max_h > ap.getPrefHeight()) {
+					ap.setPrefHeight(max_h+10);
+					exp = true;
+				}
+
 			}
 
 

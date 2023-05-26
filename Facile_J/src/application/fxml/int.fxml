@@ -8,7 +8,7 @@
 <AnchorPane fx:id="Int" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerInt">
    <AnchorPane fx:id="DragInt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0">
    <children>
-   <Label layoutX="22.0" layoutY="-3.0" prefHeight="35.0" prefWidth="48.0" text="Integer">
+   <Label layoutX="24.0" layoutY="-3.0" prefHeight="35.0" prefWidth="48.0" text="Entero">
       <font>
          <Font size="14.0" />
       </font>

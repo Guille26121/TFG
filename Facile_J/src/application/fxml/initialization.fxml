@@ -20,7 +20,7 @@
             <String fx:value="B" />
          </styleClass>
       </ImageView>
-      <TextField fx:id="IName" layoutX="259.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-background-radius: 0;" styleClass="drop">
+      <TextField fx:id="IName" layoutX="259.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-background-radius: 0;">
          <font>
             <Font size="14.0" />
          </font>

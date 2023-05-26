@@ -8,7 +8,7 @@
 <AnchorPane fx:id="String" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerString">
    <AnchorPane fx:id="DragString" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0">
    <children>
-   <Label layoutX="24.0" layoutY="-3.0" prefHeight="35.0" prefWidth="48.0" text="String">
+   <Label layoutX="27.0" layoutY="-3.0" prefHeight="35.0" prefWidth="40.0" text="Texto">
       <font>
          <Font size="14.0" />
       </font>
@@ -16,7 +16,7 @@
    </children>
       <styleClass>
          <String fx:value="drag" />
-         <String fx:value="one" />
+         <String fx:value="O" />
       </styleClass>
 </AnchorPane>
 </AnchorPane>

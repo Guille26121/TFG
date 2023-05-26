@@ -181,6 +181,41 @@ public class ControllerCombo implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}else if ("Tipo Coma Flotante".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/float.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Tipo Booleano".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/bool.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Tipo Otro".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/oth.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Valor Numérico".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/num.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Valor de texto".equals(Vars.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/text.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else {
 			return;
 		}
@@ -444,6 +479,11 @@ public class ControllerCombo implements Initializable {
 			case "If" : WriteIf(ap,pw,indent);break;
 			case "ElseIf" : WriteElseIf(ap,pw,indent);break;
 			case "Else" : WriteElse(ap,pw,indent);break;
+			case "Float" : WriteFloat(ap,pw);break;
+			case "Bool" : WriteBool(ap,pw);break;
+			case "Other" : WriteOther(ap,pw);break;
+			case "Num" : WriteNum(ap,pw);break;
+			case "Text" : WriteText(ap,pw);break;
 			}
 
 		}
@@ -623,6 +663,33 @@ public class ControllerCombo implements Initializable {
 		TextField name = (TextField)n.lookup("#VName");
 		pw.write(name.getText()+" ");
 	}
+	public void WriteFloat(Node n,PrintWriter pw) {
+		pw.write("float ");
+	}
+	public void WriteBool(Node n,PrintWriter pw) {
+		pw.write("boolean ");
+	}
+	public void WriteOther(Node n,PrintWriter pw) {
+		TextField name = (TextField)n.lookup("#OName");
+		pw.write(name.getText()+" ");
+	}
+	public void WriteNum(Node n,PrintWriter pw) {
+		TextField name = (TextField)n.lookup("#NName");
+		String num = name.getText();
+		  try {  
+			    Double.parseDouble(num);  
+				pw.write(num+" ");
+			  } catch(NumberFormatException e){  
+				  Alert alerta = new Alert(AlertType.ERROR);
+				  alerta.show(); 
+			  } 
+	}
+	public void WriteText(Node n,PrintWriter pw) {
+		TextField name = (TextField)n.lookup("#TName");
+		String text = name.getText();
+		pw.write("\""+text+"\" ");
+	}
+	
 	
 	public void WriteAsign(Node n,PrintWriter pw, int indent) {
 		TextField name = (TextField)n.lookup("#AName");

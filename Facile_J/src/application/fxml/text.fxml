@@ -6,16 +6,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="Var" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="265.0" prefHeight="40.0" prefWidth="265.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerVar">
+<AnchorPane fx:id="Text" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="244.0" prefHeight="40.0" prefWidth="336.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerText">
    <children>
-      <AnchorPane fx:id="DragVar" layoutY="1.0" prefHeight="40.0" prefWidth="275.0">
+      <AnchorPane fx:id="DragText" layoutY="1.0" prefHeight="40.0" prefWidth="336.0">
          <children>
-            <TextField fx:id="VName" layoutX="73.0" layoutY="4.0" prefHeight="30.0" prefWidth="179.0" style="-fx-background-radius: 0;" styleClass="drop">
+            <TextField fx:id="TName" layoutX="48.0" layoutY="4.0" prefHeight="30.0" prefWidth="275.0" style="-fx-background-radius: 0;" styleClass="drop">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Label layoutX="15.0" layoutY="9.0" text="Nombre:">
+            <Label layoutX="7.0" layoutY="9.0" text="Texto:">
                <font>
                   <Font size="14.0" />
                </font>

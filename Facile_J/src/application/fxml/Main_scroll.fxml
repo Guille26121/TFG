@@ -10,22 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerCombo">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerCombo">
   <content>
-    <AnchorPane fx:id="Background" minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="1024.0">
+    <AnchorPane fx:id="Background" minHeight="0.0" minWidth="0.0" prefHeight="875.0" prefWidth="1042.0">
     <ChoiceBox fx:id="Loop" layoutX="516.0" onAction="#actionLoop" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: lime; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Ops" layoutX="172.0" onAction="#actionOp" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: dodgerblue; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Cond" layoutX="344.0" onAction="#actionCond" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: fuchsia; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Vars" accessibleText="Variables" onAction="#actionVar" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: orange; -fx-background-radius: 0;" />
       <ChoiceBox fx:id="Func" layoutX="688.0" onAction="#actionFunc" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: red; -fx-background-radius: 0;" />
-      <ImageView fx:id="Trash" fitHeight="83.0" fitWidth="100.0" layoutX="24.0" layoutY="610.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Tcan.png" />
-         </image>
-      </ImageView>
-      <AnchorPane fx:id="Class" layoutX="112.0" layoutY="57.0" prefHeight="656.0" prefWidth="870.0" style="-fx-background-color: sienna;">
+      <AnchorPane fx:id="Class" layoutX="112.0" layoutY="198.0" prefHeight="599.0" prefWidth="870.0" style="-fx-background-color: sienna;">
          <children>
-            <VBox fx:id="program" layoutX="24.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="488.0" minWidth="790.0" prefHeight="533.0" prefWidth="810.0" style="-fx-background-color: white;" styleClass="drop" />
+            <VBox fx:id="program" layoutX="24.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="790.0" prefHeight="484.0" prefWidth="810.0" style="-fx-background-color: white;" styleClass="drop" />
                <Label layoutX="14.0" layoutY="13.0" text="Paquete:">
                   <font>
                      <Font size="14.0" />
@@ -98,6 +93,27 @@
                <Font size="14.0" />
             </font>
          </Label>
+         <ChoiceBox fx:id="IO" layoutX="860.0" onAction="#actionIO" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: grey; -fx-background-radius: 0;" />
+         <Label layoutX="910.0" layoutY="7.0" text="I/O y Objetos">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <AnchorPane fx:id="Imp" layoutX="112.0" layoutY="72.0" prefHeight="105.0" prefWidth="870.0" style="-fx-background-color: sienna;">
+            <children>
+               <VBox fx:id="impsite" layoutX="32.0" layoutY="37.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="18.0" minWidth="790.0" prefHeight="55.0" prefWidth="802.0" style="-fx-background-color: white;" styleClass="drop" />
+               <Label layoutX="14.0" layoutY="9.0" prefHeight="20.0" prefWidth="66.0" text="Importa:">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <ImageView fx:id="Trash" fitHeight="79.0" fitWidth="74.0" layoutX="26.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../assets/Tcan.png" />
+            </image>
+         </ImageView>
     </AnchorPane>
     
   </content>

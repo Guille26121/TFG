@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="Init" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="462.0" prefHeight="40.0" prefWidth="462.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerInit">
+<AnchorPane fx:id="Init" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="535.0" prefHeight="40.0" prefWidth="535.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerInit">
    <children>
       <ImageView fx:id="DragInit" fitHeight="35.0" fitWidth="29.0" layoutX="5.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -20,17 +20,17 @@
             <String fx:value="B" />
          </styleClass>
       </ImageView>
-      <TextField fx:id="IName" layoutX="259.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-background-radius: 0;">
+      <TextField fx:id="IName" layoutX="336.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-background-radius: 0;">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="201.0" layoutY="11.0" text="Nombre:">
+      <Label layoutX="274.0" layoutY="10.0" text="Nombre:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox fx:id="IType" layoutX="81.0" layoutY="5.0" minHeight="30.0" minWidth="98.0" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: white;">
+      <HBox fx:id="IType" layoutX="81.0" layoutY="5.0" minHeight="30.0" minWidth="98.0" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: white;">
          <styleClass>
             <String fx:value="drop" />
             <String fx:value="one" />

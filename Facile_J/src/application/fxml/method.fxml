@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="method" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="513.0" minWidth="810.0" prefHeight="513.0" prefWidth="810.0" style="-fx-background-color: red; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerMethod">
+<AnchorPane fx:id="method" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="455.0" minWidth="810.0" prefHeight="455.0" prefWidth="810.0" style="-fx-background-color: red; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerMethod">
    <children>
-      <VBox fx:id="FCont" layoutX="15.0" layoutY="130.0" minHeight="367.0" minWidth="767.0" prefHeight="367.0" prefWidth="767.0" style="-fx-background-color: white;" styleClass="drop" />
+      <VBox fx:id="FCont" layoutX="15.0" layoutY="130.0" minHeight="307.0" minWidth="767.0" prefHeight="307.0" prefWidth="767.0" style="-fx-background-color: white;" styleClass="drop" />
       <Label layoutX="50.0" layoutY="14.0" text="Función: ">
          <font>
             <Font size="14.0" />

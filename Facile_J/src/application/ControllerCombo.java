@@ -6,22 +6,25 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -29,8 +32,11 @@ import java.io.PrintWriter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import application.Expander;
+
 
 public class ControllerCombo implements Initializable {
+	
 
 	// Choices Boxes del Main y Botón de Play
 	@FXML
@@ -44,9 +50,153 @@ public class ControllerCombo implements Initializable {
 	@FXML
 	private ChoiceBox<String> Cond;
 	@FXML
+	private ChoiceBox<String> IO;
+	@FXML
 	private ImageView translate;
+	
+	private Expander exp = new Expander();
 
 	// Métodos de evento onAction de cada choicebox 
+	@FXML
+	void actionIO(ActionEvent event) {
+		AnchorPane componente = null;
+		AnchorPane componente2 = null;
+		Node n = (Node)event.getSource();
+		AnchorPane p = (AnchorPane)n.getParent();
+		if ("Imprimir".equals(IO.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/if.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Leer".equals(IO.getValue())) {
+			AnchorPane importAP = (AnchorPane)p.lookup("#Imp");
+			VBox imports = (VBox)importAP.lookup("#impsite");
+			boolean imported = false;
+			FXMLLoader loader1 = new FXMLLoader(getClass().getResource("fxml/import.fxml")); // Loader del import
+			FXMLLoader loader2 = new FXMLLoader(getClass().getResource("fxml/initialization.fxml")); // Loader del init
+			FXMLLoader loader3 = new FXMLLoader(getClass().getResource("fxml/oth.fxml")); // Loader del assign
+			FXMLLoader loader3_1 = new FXMLLoader(getClass().getResource("fxml/oth.fxml")); // Loader del assign
+
+			
+			FXMLLoader loader4 = new FXMLLoader(getClass().getResource("fxml/new.fxml")); // New obj
+			FXMLLoader loader5 = new FXMLLoader(getClass().getResource("fxml/prop.fxml")); // Propiedad
+			FXMLLoader loader6 = new FXMLLoader(getClass().getResource("fxml/asign.fxml")); //  Asignación
+			
+			FXMLLoader loader7 = new FXMLLoader(getClass().getResource("fxml/asign.fxml")); //  Asignación
+			FXMLLoader loader8 = new FXMLLoader(getClass().getResource("fxml/call.fxml")); //  Asignación
+
+			for(Node imprt : imports.getChildren()) {
+				AnchorPane impAP = (AnchorPane) imprt;
+				TextField imptf = (TextField)imprt.lookup("#ImpName");
+				if(imptf.getText().equals("java.util.Scanner")) imported = true;
+			}
+			try {
+				if(imported) {
+					
+				}else {
+					// import
+					componente = loader1.load();
+					TextField imptf = (TextField)componente.lookup("#ImpName");
+					imptf.setText("java.util.Scanner");
+					imports.getChildren().add(componente);
+					exp.expandImp(componente);
+					// init
+					componente = loader2.load();
+					componente2 = loader3.load();
+					TextField oth = (TextField)componente2.lookup("#OName");
+					oth.setText("Scanner");
+					HBox type = (HBox)componente.lookup("#IType");
+					TextField name = (TextField)componente.lookup("#IName");
+					type.getChildren().add(componente2);
+					exp.expand(type);
+					name.setText("teclado");
+					p.getChildren().add(componente);
+					componente.setLayoutX(50.0);
+					componente.setLayoutY(100.0);
+					// assign
+					componente = loader4.load();
+					type = (HBox)componente.lookup("#NOType");
+					HBox params = (HBox)componente.lookup("#NOParams");
+					AnchorPane componente3 = loader3_1.load();
+					 oth = (TextField)componente3.lookup("#OName");
+					oth.setText("Scanner");
+					type.getChildren().add(componente3);
+					exp.expand(type);
+					componente2 = loader5.load();
+					TextField objP = (TextField)componente2.lookup("#PObj");
+					TextField nameP = (TextField)componente2.lookup("#PName");
+					objP.setText("System");
+					nameP.setText("in");
+					params.getChildren().add(componente2);
+					exp.expand(params);
+					componente2 = loader6.load();
+					name = (TextField)componente2.lookup("#AName");
+					name.setText("teclado");
+					HBox val = (HBox)componente2.lookup("#ACont");
+					val.getChildren().add(componente);
+					exp.expand(val);
+					p.getChildren().add(componente2);
+					componente.setLayoutX(50.0);
+					componente.setLayoutY(150.0);
+
+				}
+				componente = loader7.load();
+				componente2 = loader8.load();
+				TextField obj = (TextField)componente2.lookup("#CObj");
+				TextField meth = (TextField)componente2.lookup("#CName");
+				obj.setText("teclado");
+				meth.setText("nextLine");
+				TextField name = (TextField)componente.lookup("#AName");
+				name.setText("ejemplo");
+				HBox val = (HBox)componente.lookup("#ACont");
+				val.getChildren().add(componente2);
+				exp.expand(val);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Importar".equals(IO.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/import.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Nuevo Objeto".equals(IO.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/new.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("Propiedad".equals(IO.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/prop.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if ("This".equals(IO.getValue())) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/import.fxml"));
+			try {
+				componente = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			return;
+		}
+		p.getChildren().add(componente);
+		componente.setLayoutX(50.0);
+		componente.setLayoutY(100.0);
+		IO.setValue(null);
+	}
+	
+	
+	
+	
 	@FXML
 	void actionCond(ActionEvent event) {
 		AnchorPane componente = null;
@@ -385,12 +535,15 @@ public class ControllerCombo implements Initializable {
 		ObservableList<String> COloop = FXCollections.observableArrayList("While","For");
 		ObservableList<String> COcond = FXCollections.observableArrayList("If","Else If","Else");
 		ObservableList<String> COfunct = FXCollections.observableArrayList("Función","Vacío","Retorno","Llamada estática","Llamada","String[] args");
+		ObservableList<String> COio = FXCollections.observableArrayList("Imprimir","Leer","Importar","Nuevo Objeto","Propiedad","This");
+
 
 		Vars.setItems(COvars);
 		Ops.setItems(COops);
 		Loop.setItems(COloop);
 		Func.setItems(COfunct);
 		Cond.setItems(COcond);
+		IO.setItems(COio);
 
 		translate.setOnMouseClicked(event->{
 			// Inicio del programa, con las clases. 
@@ -405,22 +558,79 @@ public class ControllerCombo implements Initializable {
 				TextField clss = (TextField)Cstart.lookup("#clss");
 				TextField inhrt = (TextField)Cstart.lookup("#inhrt");
 				TextField impl = (TextField)Cstart.lookup("#impl");
+				AnchorPane importAP = (AnchorPane)inside.lookup("#Imp");
+				VBox imports = (VBox)importAP.lookup("#impsite");
 
+				if(!packg.getText().isEmpty() && packg.getText().matches("[a-z]+")) {
+					pw.write("package "+packg.getText()+"; \n");
+				}else {
+					  Alert alerta = new Alert(AlertType.ERROR);
+					  alerta.setContentText("Paquéte no está en mayusculas");
+					  alerta.show(); 
+					  return;
+				}
+				for(Node n : imports.getChildren()) {
+					AnchorPane impap = (AnchorPane)n;
+					TextField timp = (TextField)impap.lookup("#ImpName");
+					pw.write("import "+timp.getText()+"; \n");
+				}
+				if(!clss.getText().isEmpty() && Character.isUpperCase(clss.getText().charAt(0)) && clss.getText().substring(1).equals(clss.getText().substring(1).toLowerCase())) {
+					pw.write("public class "+clss.getText()+" ");
+				}else {
+					  Alert alerta = new Alert(AlertType.ERROR);
+					  alerta.setContentText("Formato incorrecto de la Clase");
+					  alerta.show(); 
+					  return;
+				}
+				if(!inhrt.getText().isEmpty() ) {
+					if(Character.isUpperCase(inhrt.getText().charAt(0)) && inhrt.getText().substring(1).equals(inhrt.getText().substring(1).toLowerCase())) {
+						pw.write("extends "+inhrt.getText()+" ");
+					}else {
+						  Alert alerta = new Alert(AlertType.ERROR);
+						  alerta.setContentText("Formato incorrecto de la Clase heredada");
+						  alerta.show(); 
+						  return;
+					}
+				}
+				if(!impl.getText().isEmpty() ) {
+					if(Character.isUpperCase(impl.getText().charAt(0)) && impl.getText().substring(1).equals(impl.getText().substring(1).toLowerCase())) {
+						pw.write("implements "+impl.getText()+" ");
 
-				if(!packg.getText().isEmpty()) pw.write("package "+packg.getText()+"; \n");
-				if(!clss.getText().isEmpty()) pw.write("public Class "+clss.getText()+" ");
-				if(!inhrt.getText().isEmpty()) pw.write("extends "+inhrt.getText()+" ");
-				if(!impl.getText().isEmpty()) pw.write("implements "+impl.getText()+" ");
+					}else {
+					  Alert alerta = new Alert(AlertType.ERROR);
+					  alerta.setContentText("Formato incorrecto de la Interfaz implementada");
+					  alerta.show(); 
+					  return;
+				}
+				}
 				pw.write("{ \n");
 				// Punto de comienzo de la navegación por el arbol
 				VBox program = (VBox) Cstart.lookup("#program");
 				treeTravel(program,pw,1);
 				pw.write("} \n");
-
-
-
-
 				pw.close();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/saver.fxml")); // Loader del import
+				ScrollPane sv = loader.load();
+				AnchorPane ap = (AnchorPane)sv.getContent();
+				TextArea ta = (TextArea)ap.lookup("#code");
+				File file2 = new File("out.txt");
+				String allt = "";
+				try (FileReader fileReader = new FileReader(file2);
+			             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+
+			            String line;
+			            while ((line = bufferedReader.readLine()) != null) {
+			                ta.appendText(line+"\n");
+			            }
+
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+				Scene scene = new Scene(sv, 1080, 720);
+				Stage stg = new Stage();
+				stg.setScene(scene);
+				stg.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -484,6 +694,9 @@ public class ControllerCombo implements Initializable {
 			case "Other" : WriteOther(ap,pw);break;
 			case "Num" : WriteNum(ap,pw);break;
 			case "Text" : WriteText(ap,pw);break;
+			case "NewObj" : WriteNewObj(ap,pw,indent);break;
+			case "Property" : WriteProp(ap,pw);break;
+
 			}
 
 		}
@@ -522,10 +735,15 @@ public class ControllerCombo implements Initializable {
 					pw.write("\t");
 				}
 				pw.write("} \n");
+		}else {
+	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.setContentText("Else If sin Else If o If arriba");
+	        alerta.show();
 		}
 
 		}else {
 	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.setContentText("Else If sin Else If o If arriba");
 	        alerta.show();
 		}
 	}
@@ -545,9 +763,14 @@ public class ControllerCombo implements Initializable {
 					pw.write("\t");
 				}
 				pw.write("} \n");
+			}else {
+		        Alert alerta = new Alert(AlertType.ERROR);
+		        alerta.setContentText("Else sin Else If o If arriba");
+		        alerta.show();
 			}
 		}else {
 	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.setContentText("Else sin Else If o If arriba");
 	        alerta.show();
 		}
 	}
@@ -681,6 +904,7 @@ public class ControllerCombo implements Initializable {
 				pw.write(num+" ");
 			  } catch(NumberFormatException e){  
 				  Alert alerta = new Alert(AlertType.ERROR);
+				  alerta.setContentText("Valor no numérico");
 				  alerta.show(); 
 			  } 
 	}
@@ -689,7 +913,11 @@ public class ControllerCombo implements Initializable {
 		String text = name.getText();
 		pw.write("\""+text+"\" ");
 	}
-	
+	public void WriteProp(Node n,PrintWriter pw) {
+		TextField obj = (TextField)n.lookup("#PObj");
+		TextField prop = (TextField)n.lookup("#PName");
+		pw.write(obj.getText()+"."+prop.getText()+" ");
+	}
 	
 	public void WriteAsign(Node n,PrintWriter pw, int indent) {
 		TextField name = (TextField)n.lookup("#AName");
@@ -714,8 +942,10 @@ public class ControllerCombo implements Initializable {
 		HBox ret = (HBox)n.lookup("#SCParams");
 		TextField name = (TextField)n.lookup("#SCName");
 		ObservableList<Node> nodes = ret.getChildren();
-		for (int i = 0; i<indent;i++) {
-			pw.write("\t");
+		if(n.getParent() instanceof VBox) {
+			for (int i = 0; i<indent;i++) {
+				pw.write("\t");
+			}
 		}
 		pw.write(name.getText()+"(");
 		for(Node node : nodes){
@@ -739,6 +969,23 @@ public class ControllerCombo implements Initializable {
 			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
 		}
 		pw.write("); \n");
+	}
+	
+	public void WriteNewObj(Node n,PrintWriter pw,int indent) {
+		HBox ret = (HBox)n.lookup("#NOParams");
+		HBox type = (HBox)n.lookup("#NOType");
+		ObservableList<Node> nodes = ret.getChildren();
+		ObservableList<Node> types = type.getChildren();
+		pw.write("new ");
+		for(Node node : types){
+			treeTravel(node,pw,indent);
+		}
+		pw.write("( "); 
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
+		}
+		pw.write(")");
 	}
 	
 	public void WriteRet(Node n,PrintWriter pw,int indent) {

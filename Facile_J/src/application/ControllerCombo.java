@@ -64,7 +64,7 @@ public class ControllerCombo implements Initializable {
 		Node n = (Node)event.getSource();
 		AnchorPane p = (AnchorPane)n.getParent();
 		if ("Imprimir".equals(IO.getValue())) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/if.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/print.fxml"));
 			try {
 				componente = loader.load();
 			} catch (IOException e) {
@@ -85,8 +85,8 @@ public class ControllerCombo implements Initializable {
 			FXMLLoader loader6 = new FXMLLoader(getClass().getResource("fxml/asign.fxml")); //  Asignación
 			
 			FXMLLoader loader7 = new FXMLLoader(getClass().getResource("fxml/asign.fxml")); //  Asignación
-			FXMLLoader loader8 = new FXMLLoader(getClass().getResource("fxml/call.fxml")); //  Asignación
-
+			FXMLLoader loader8 = new FXMLLoader(getClass().getResource("fxml/read.fxml")); //  Asignación
+			
 			for(Node imprt : imports.getChildren()) {
 				AnchorPane impAP = (AnchorPane) imprt;
 				TextField imptf = (TextField)imprt.lookup("#ImpName");
@@ -144,15 +144,13 @@ public class ControllerCombo implements Initializable {
 				}
 				componente = loader7.load();
 				componente2 = loader8.load();
-				TextField obj = (TextField)componente2.lookup("#CObj");
-				TextField meth = (TextField)componente2.lookup("#CName");
+				TextField obj = (TextField)componente2.lookup("#RdTec");
 				obj.setText("teclado");
-				meth.setText("nextLine");
 				TextField name = (TextField)componente.lookup("#AName");
 				name.setText("ejemplo");
-				HBox val = (HBox)componente.lookup("#ACont");
-				val.getChildren().add(componente2);
-				exp.expand(val);
+				HBox val2 = (HBox)componente.lookup("#ACont");
+				val2.getChildren().add(componente2);
+				exp.expand(val2);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -696,7 +694,8 @@ public class ControllerCombo implements Initializable {
 			case "Text" : WriteText(ap,pw);break;
 			case "NewObj" : WriteNewObj(ap,pw,indent);break;
 			case "Property" : WriteProp(ap,pw);break;
-
+			case "Print" : WritePrint(ap,pw,indent);break;
+			case "Read" : WriteRead(ap,pw);break;
 			}
 
 		}
@@ -856,10 +855,10 @@ public class ControllerCombo implements Initializable {
 		pw.write("!  ");
 	}
 	public void WriteEqual(Node n,PrintWriter pw) {
-		pw.write("=  ");
+		pw.write("== ");
 	}
 	public void WriteNEqual(Node n,PrintWriter pw) {
-		pw.write("≠  ");
+		pw.write("!= ");
 	}
 	public void WriteMore(Node n,PrintWriter pw) {
 		pw.write(">  ");
@@ -986,6 +985,25 @@ public class ControllerCombo implements Initializable {
 			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ,");
 		}
 		pw.write(")");
+	}
+	
+	public void WriteRead(Node n,PrintWriter pw) {
+		TextField tec = (TextField)n.lookup("#RdTec");
+		pw.write(tec.getText()+".readLine()");
+	}
+	
+	public void WritePrint(Node n,PrintWriter pw,int indent) {
+		for (int i = 0; i<indent;i++) {
+			pw.write("\t");
+		}
+		HBox ret = (HBox)n.lookup("#PtParams");
+		ObservableList<Node> nodes = ret.getChildren();
+		pw.write("System.out.println(");
+		for(Node node : nodes){
+			treeTravel(node,pw,indent);
+			if(nodes.indexOf(node) != nodes.size()-1) pw.write(" ");
+		}
+		pw.write("); \n");
 	}
 	
 	public void WriteRet(Node n,PrintWriter pw,int indent) {

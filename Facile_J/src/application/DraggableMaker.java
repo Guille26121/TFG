@@ -161,6 +161,7 @@ public class DraggableMaker {
 						exp.expand(hb);
 					}
 				}else if(fBox instanceof VBox && node.getStyleClass().contains("imp") && fBox.getStyleClass().contains("imp")) {
+					System.out.println("Entra");
 					vb = (VBox) fBox;
 					double layout = vb.getLayoutY();
 					Node findL = vb;

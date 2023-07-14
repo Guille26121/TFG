@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="Bool" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerBool">
+<AnchorPane fx:id="Bool" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.ControllerBool">
    <AnchorPane fx:id="DragBool" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="91.0">
    <children>
    <Label layoutX="16.0" layoutY="-3.0" prefHeight="35.0" prefWidth="64.0" text="Booleano">

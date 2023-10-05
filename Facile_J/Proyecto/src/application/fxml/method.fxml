@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="method" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="455.0" minWidth="810.0" prefHeight="455.0" prefWidth="810.0" style="-fx-background-color: red; -fx-border-color: black; -fx-border-width: 2;" styleClass="body" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.ControllerMethod">
+   <children>
+      <VBox fx:id="FCont" layoutX="15.0" layoutY="130.0" minHeight="307.0" minWidth="767.0" prefHeight="307.0" prefWidth="767.0" style="-fx-background-color: white;" styleClass="drop" />
+      <Label layoutX="50.0" layoutY="14.0" text="Función: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="Facc" layoutX="111.0" layoutY="65.0" prefWidth="150.0" />
+      <CheckBox fx:id="Fstatic" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" text="Estática">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <TextField fx:id="Fname" layoutX="111.0" layoutY="9.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="59.0" layoutY="69.0" text="Ámbito: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox fx:id="Fin" layoutX="486.0" layoutY="8.0" minHeight="45.0" minWidth="295.0" prefHeight="45.0" prefWidth="295.0" style="-fx-background-color: white;" styleClass="drop" />
+      <Label layoutX="425.0" layoutY="18.0" text="Entradas: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="427.0" layoutY="79.0" text="Salida:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox fx:id="Fout" layoutX="486.0" layoutY="74.0" minHeight="30.0" minWidth="129.0" prefHeight="30.0" prefWidth="129.0" style="-fx-background-color: white;">
+         <styleClass>
+            <String fx:value="drop" />
+            <String fx:value="one" />
+         </styleClass></HBox>
+      <ImageView fx:id="DragMethod" fitHeight="30.0" fitWidth="30.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/all_directions.png" />
+         </image>
+         <styleClass>
+            <String fx:value="drag" />
+            <String fx:value="V" />
+         </styleClass>
+      </ImageView>
+   </children>
+</AnchorPane>
